@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+<!--存放namenode中的namespace和log文件的路径-->
+<property>
+         <name>dfs.namenode.name.dir</name>
+         <value>/stor01/hadoop/hadoop/namenode</value>
+</property>
+<!--存放datanode中的数据的目录-->
+<property>
+	<name>dfs.datanode.data.dir</name>
+	<value>/data/hadoop/hadoop/datanode</value>
+</property>
+<!--datanode节点主机白名单列表文件,只有在白名单中的机器有权限连接namenode，默认所有worker都可以作为datanode-->
+<!--property-->
+          <!--name>dfs.hosts</name-->
+          <!--value>/FilePath</value-->
+<!--/property-->
+<!--hdfs中文件block大小，默认是256M-->
+<property>
+	<name>dfs.blocksize</name>
+	<value>268435456</value>
+</property>
+<!--namdenode中允许来自datanode的rpc服务调用最多多少个线程数量-->
+<property>                 
+        <name>dfs.namenode.handler.count</name>
+        <value>100</value>
+</property>
+<!--SecondaryNameNode节点主机地址和端口-->
+<property> 
+   <name>dfs.secondary.http.address</name>
+   <value>slave1:50090</value>
+</property>
+</configuration>

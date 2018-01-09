@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+<configuration>
+          <!--执行框架设置为yarn-->
+          <property>
+	          <name>mapreduce.framework.name</name>
+	          <value>yarn</value>
+          </property>
+	  <!--JobHistory Server服务器   主机：端口号-->
+          <property>
+                  <name>mapreduce.jobhistory.address</name>
+                  <value>master:10020</value>
+          </property>
+	  <!--JobHistory Web-UI服务器  主机：端口号-->
+          <property>
+                  <name>mapreduce.jobhistory.webapp.address</name>
+                  <value>master:19888</value>
+          </property>
+	  <!--JobHistory的临时文件目录，用于MapReduce Job读写-->
+          <property>
+	          <name>mapreduce.jobhistory.intermediate-done-dir</name>
+                  <value>/stor01/hadoop/hadoop/jobhistoryserver/tmp</value>
+          </property>
+	  <!--JobHistory Mapreduce的完成目录-->
+          <property>
+	    	  <name>mapreduce.jobhistory.done-dir</name>
+		  <value>/stor01/hadoop/hadoop/jobhistoryserver/done</value>
+          </property>
+
+	  <!--mapreduce中间完成的作业信息存储HDFS路径-->
+	  <property>
+		<name>mapreduce.jobhistory.intermediate-done-dir</name>
+		<value>/history/done_intermediate</value>
+	  </property>
+	 
+	  <!--mapreduce已经完成的作业信息存储HDFS路径-->
+	  <property>
+		<name>mapreduce.jobhistory.done-dir</name>
+		<value>/history/done</value>
+	  </property>
+	  <!--mapreduce应用可以分配得到的内存资源，默认1G，设为10G-->
+	  <property>
+	  	<name>mapreduce.map.memory.mb</name>
+	  	<value>10240</value>
+	  </property>>
+	  <!--Larger heap-size for child jvms of maps. 子map虚拟机的堆大小，默认1G，设为2G-->
+	  <property>
+		<name>mapreduce.map.java.opts</name>
+		<value>-Xmx2048M</value>
+	  </property>
+	  <!--reduce任务配置的内存资源，默认3G，设为4G-->
+	  <property>
+		<name>mapreduce.reduce.memory.mb</name>
+		<value>4096</value>
+	  </property>
+	  <!--mapreduce.reduce.java.opts 子reduce虚拟机的对大小，默认2G，设为4G-->
+	  <property>
+		<name>mapreduce.reduce.java.opts</name>
+		<value>-Xmx4096M</value>
+	  </property>
+	  <!--乱序随机化排序时内存的上限，默认512M，设为1G-->
+	  <property>
+		<name>mapreduce.task.io.sort.mb</name>
+		<value>1024</value>
+	  </property>
+	  <!--归并排序时，一次性合并时多少个文件数据流，默认100，设为200-->
+	  <property>
+		<name>mapreduce.task.io.sort.factor</name>
+		<value>200</value>
+	  </property>
+	  <!--reduce时可以并行从ouput中复制数据的线程数，默认50，设为100-->
+	  <property>
+		<name>mapreduce.reduce.shuffle.parallelcopies</name>
+		<value>100</value>
+	  </property>
+  	  <!--配置MapReduce的Classpath-->
+	  <property> 
+	      <name>mapreduce.application.classpath</name>
+	      <value>/home/hadoop/hadoop-2.8.3/etc/hadoop,/home/hadoop/hadoop-2.8.3/share/hadoop/common/*,/home/hadoop/hadoop-2.8.3/share/hadoop/common/lib/*,/home/hadoop/hadoop-2.8.3/share/hadoop/hdfs/*,/home/hadoop/hadoop-2.8.3/share/hadoop/hdfs/lib/*,/home/hadoop/hadoop-2.8.3/share/hadoop/mapreduce/*,/home/hadoop/hadoop-2.8.3/share/hadoop/mapreduce/lib/*,/home/hadoop/hadoop-2.8.3/share/hadoop/yarn/*,/home/hadoop/hadoop-2.8.3/share/hadoop/yarn/lib/*</value>
+	  </property>
+</configuration>
