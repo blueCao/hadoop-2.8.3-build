@@ -53,40 +53,65 @@
 		<name>mapreduce.jobhistory.done-dir</name>
 		<value>/history/done</value>
 	  </property>
-	  <!--mapreduce应用可以分配得到的内存资源，默认1G，设为10G-->
+	  <!--MapReduce AppMaster启动需要的内存数 设置8G，这个值必须大于mapreduce.map.memory.mb-->
+	  <property>
+	  	<name>yarn.app.mapreduce.am.resource.mb</name>
+	  	<value>8192</value>
+	  </property>
+	  <!--mapreduce应用可以分配得到的内存资源，默认1G，设为10G,这个值必须小于yarn.app.mapreduce.am.resource.mb-->
 	  <property>
 	  	<name>mapreduce.map.memory.mb</name>
 	  	<value>10240</value>
-	  </property>>
-	  <!--Larger heap-size for child jvms of maps. 子map虚拟机的堆大小，默认1G，设为2G-->
+	  </property>
+	  <!--map任务最大的并发数量，默认是没有限制，设为20-->
+	  <property>
+	  	<name>mapreduce.job.running.map.limit</name>
+	  	<value>20</value>
+	  </property>
+	  <!--分配给每一个map的 cpu个数--> 
+	  <property>
+	  	<name>mapreduce.map.cpu.vcores</name>
+	  	<value>1</value>
+	  </property> 
+	  <!--Larger heap-size for child jvms of maps. 子map虚拟机的堆大小，默认1G，设为8G，一般为虚拟机的0.75倍-->
 	  <property>
 		<name>mapreduce.map.java.opts</name>
-		<value>-Xmx2048M</value>
+		<value>-Xmx8192M</value>
 	  </property>
-	  <!--reduce任务配置的内存资源，默认3G，设为4G-->
+	  <!--reduce任务配置的内存资源，默认3G，设为16G，这个值必须小于yarn.app.mapreduce.am.resource.mb-->
 	  <property>
 		<name>mapreduce.reduce.memory.mb</name>
-		<value>4096</value>
+		<value>16384</value>
 	  </property>
-	  <!--mapreduce.reduce.java.opts 子reduce虚拟机的对大小，默认2G，设为4G-->
+          <!--reduce任务最大的并发数量，默认是没有限制，设为4-->
+          <property>
+		<name>mapreduce.job.running.reduce.limit</name>
+                <value>4</value>
+	</property> 	  
+	  <!--分配给每一个reudce的 cpu个数--> 
+	  <property>
+	  	<name>mapreduce.reduce.cpu.vcores</name>
+                <value>1</value>
+	  </property> 	  
+	  <!--mapreduce.reduce.java.opts 子reduce虚拟机的堆大小,一般为虚拟机的0.75倍设为12G-->
 	  <property>
 		<name>mapreduce.reduce.java.opts</name>
-		<value>-Xmx4096M</value>
+		<value>-Xmx12288M</value>
 	  </property>
 	  <!--乱序随机化排序时内存的上限，默认512M，设为1G-->
 	  <property>
 		<name>mapreduce.task.io.sort.mb</name>
 		<value>1024</value>
 	  </property>
-	  <!--归并排序时，一次性合并时多少个文件数据流，默认100，设为200-->
+	  <!--归并排序时，一次性合并时多少个文件数据流，默认100，设为100-->
 	  <property>
 		<name>mapreduce.task.io.sort.factor</name>
-		<value>200</value>
+		<value>100</value>
 	  </property>
-	  <!--reduce时可以并行从ouput中复制数据的线程数，默认50，设为100-->
+	  <!--reduce时可以并行从ouput中复制数据的线程数，默认50，设为50-->
 	  <property>
 		<name>mapreduce.reduce.shuffle.parallelcopies</name>
-		<value>100</value>
+		<value>50</value>
 	  </property>
   	  <!--配置MapReduce的Classpath-->
 	  <property> 
