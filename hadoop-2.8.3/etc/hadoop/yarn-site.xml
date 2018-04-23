@@ -23,11 +23,6 @@
         <name>yarn.acl.enable</name>
         <value>false</value>
     </property>
-    <!--是否开启日志聚合，默认关-->
-    <property>    
-        <name>yarn.log-aggregation-enable</name>
-        <value>false</value>
-    </property>
     <!--开启Mapreduce洗牌服务，用于打乱数据，必须开启的服务-->	
     <property>    
             <name>yarn.nodemanager.aux-services</name>    
@@ -58,21 +53,35 @@
 	    <name>yarn.resourcemanager.webapp.address</name>    
 	    <value>master:8088</value>   
     </property>
-    <!--单个任务可申请的最少物理内存量，默认1024M-->
+    <!--单个task container可申请的最少物理内存量，默认1024M-->
     <property>    
 	    <name>yarn.scheduler.minimum-allocation-mb</name>    
 	    <value>1024</value>
     </property>
-    <!--单个任务可申请的最大物理内存量，默认是8192M，设为16384M（16G）-->
+    <!--单个task container可申请的最大物理内存量，默认是8192M，设为20G-->
     <property>
        	     <name>yarn.scheduler.maximum-allocation-mb</name>    
-              <value>16384</value>    
+              <value>20480</value> 
     </property>
-    <!--默认是FairScheduler调度方式-->
+    <!--默认是容量调度方式,采用fifo的公平调度-->
+   <property>
+   	<name>yarn.resourcemanager.scheduler.class</name>
+   	<value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
+        <!--<value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler</value>-->
+   </property>
+    <!--将虚拟内存分配限制删除-->   
     <property>
-      <name>yarn.resourcemanager.scheduler.class</name>
-      <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
-    </property> 
+        <name>yarn.nodemanager.vmem-check-enabled</name>
+        <value>false</value>
+        <description>Whether virtual memory limits will be enforced for containers</description>
+     </property>
+    <!--设置 虚拟内存/物理内存 的比例因子-->
+    <property>
+        <name>yarn.nodemanager.vmem-pmem-ratio</name>
+        <value>4</value>
+        <description>Ratio between virtual memory to physical memory when setting memory limits for containers</description>
+    </property>
+
     <!--允许创建NodeManger的主机host文件路径,默认worker中的所有主机都可以-->
     <!--property-->
 	  <!--name>yarn.resourcemanager.nodes.include-path</name-->
@@ -84,10 +93,10 @@
     	<name>yarn.application.classpath</name>
     	<value>/home/hadoop/hadoop-2.8.3/share/hadoop/common/*</value>
     </property>
-    <!--NodeManager可以调度nodedata节点中RAM的大小，设为50G-->
+    <!--NodeManager可以调度的每一个nodedata节点中RAM的大小这个值必须小于每个节点的物理内存，设为35G-->
     <property>
 	<name>yarn.nodemanager.resource.memory-mb</name>
-	<value>51200</value>
+	<value>35840</value>
     </property>
     <!--NodeManager中指定的用于存储中间文件的路径-->
     <property>
@@ -104,4 +113,32 @@
    	<name>arn.application.classpath</name>
    	<value>/home/hadoop/hadoop-2.8.3/etc/hadoop,/home/hadoop/hadoop-2.8.3/share/hadoop/common/*,/home/hadoop/hadoop-2.8.3/share/hadoop/common/lib/*,/home/hadoop/hadoop-2.8.3/share/hadoop/hdfs/*,/home/hadoop/hadoop-2.8.3/share/hadoop/hdfs/lib/*,/home/hadoop/hadoop-2.8.3/share/hadoop/mapreduce/*,/home/hadoop/hadoop-2.8.3/share/hadoop/mapreduce/lib/*,/home/hadoop/hadoop-2.8.3/share/hadoop/yarn/*,/home/hadoop/hadoop-2.8.3/share/hadoop/yarn/lib/*</value>
    </property>
+  <!--以下配置cpu个数-->
+  <property>  
+   	<name>yarn.nodemanager.resource.cpu-vcores</name>
+   	<!--表示分配给容器的cpu个数-->
+	<value>5</value>
+  </property>
+  <!--以下为日志聚合设置--> 
+  <property>  
+       <name>yarn.log-aggregation-enable</name>  
+           <value>true</value><!--是否设置聚合，默认是false-->  
+   </property>  
+   <property>  
+    	<name>yarn.log-aggregation.retain-seconds</name>  
+        <value>259200</value><span style="font-family: Arial, Helvetica, sans-serif; font-size: 12px;"><!--3天之后清除聚合的日志文件--></span>  
+   </property>  
+   <property>  
+   	 <name>yarn.log-aggregation.retain-check-interval-seconds</name>  
+        <value>-1</value><span style="font-family: Arial, Helvetica, sans-serif; font-size: 12px;"><!-- -1 或者0天表示上述值（3天）的十分之一 时间之后清除聚合的日志文件7.5小时之后清除--></span>  
+   </property>  
+   <property>  
+    	<name>yarn.nodemanager.remote-app-log-dir</name>  
+        <value>/tmp/logs</value><span style="font-family: Arial, Helvetica, sans-serif; font-size: 12px;"><!---聚合日志生产的hdfs路径--></span>  
+   </property>
+   <!--指定http server端访问的地址-->
+   <property>
+            <name>yarn.log.server.url</name>
+            <value>http://master:19888/jobhistory/logs</value>
+   </property>  
 </configuration>
